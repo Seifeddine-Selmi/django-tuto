@@ -16,4 +16,8 @@ urlpatterns = [
     url(r'^add_article/$', views.add_article, name='add_article'),
     url(r'^edit_article/(?P<id>\d+)$', views.edit_article, name='edit_article'),
     url(r'^delete_article/(?P<id>\d+)$', views.delete_article, name='delete_article'),
+    url(r'^new_contact/$', views.new_contact, name='new_contact'),
+    url(r'^contact_list/$', views.contact_list, name='contact_list'),
+    url(r'^new_document/$', views.new_document, name='new_document'),
+    url(r'^document_list/$', views.document_list, name='document_list'),
 ]

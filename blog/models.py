@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+import os
  
 # Create your models here.
 
@@ -62,4 +63,24 @@ class Offer(models.Model):
 
     def __unicode__(self):
         return "{0} vendu par {1}".format(self.product, self.vendor)
+
+########## Contact : Gestion des fichiers #######
+class Contact(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.TextField()
+    image = models.ImageField(upload_to="images/")
+
+    def __unicode__(self):
+           return self.name
+
+def rename(instance, name):
+     file_name = os.path.splitext(name)[0] # on retire l'extension
+     return "{}-{}".format(instance.id, file_name)
+
+
+class Document(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to="files/", verbose_name="Document")
+    #file = models.FileField(upload_to=rename, verbose_name="Document")
+
 

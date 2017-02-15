@@ -1,0 +1,9 @@
+<h1>Liste des contacts</h1>
+{% for contact in contacts %}
+    <h2>{{ contact.name }}</h2>
+    Adresse : {{ contact.address|linebreaks }}<br/>
+    <img src="{{ contact.image.url }}" width="100" height="100"/>
+
+{% empty %}
+    <p>Aucun contact.</p>
+{% endfor %}

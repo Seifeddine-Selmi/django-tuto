@@ -27,3 +27,15 @@ class ContactForm(forms.Form):
               self.add_error("message", msg)
 
         return cleaned_data  # N'oublions pas de renvoyer les données si tout est OK
+
+
+class NewContactForm(forms.Form):
+    name = forms.CharField()
+    address = forms.CharField(widget=forms.Textarea)
+    image = forms.ImageField()
+
+
+
+class NewDocumentForm(forms.Form):
+    name = forms.CharField()
+    file = forms.FileField()

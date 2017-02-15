@@ -9,6 +9,10 @@
 
         <h1>Bienvenue sur le blog!</h1>
         <p><a href="{% url 'add_article' %}" target="_blank">Ajouter un article</a>
+        <p><a href="{% url 'new_contact' %}" target="_blank">Ajouter un contact</a>
+       <p><a href="{% url 'contact_list' %}" target="_blank">Liste des contacts</a>
+       <p><a href="{% url 'new_document' %}" target="_blank">Ajouter un document</a>
+       <p><a href="{% url 'document_list' %}" target="_blank">Liste des documents</a>
 
 {% for article in articles %}
     <div class="article">

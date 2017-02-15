@@ -1,0 +1,9 @@
+<h1>Liste des documents</h1>
+{% for document in documents %}
+    <h2>{{ document.name }}</h2>
+
+<a href="{{ document.file.url }}" target="_blank"> Afficher le document</a>
+
+{% empty %}
+    <p>Aucun document.</p>
+{% endfor %}
