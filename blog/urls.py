@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^add_article/$', views.add_article, name='add_article'),
     url(r'^edit_article/(?P<id>\d+)$', views.edit_article, name='edit_article'),
+    url(r'^delete_article/(?P<id>\d+)$', views.delete_article, name='delete_article'),
 ]

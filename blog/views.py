@@ -104,3 +104,8 @@ def edit_article(request, id):
         return HttpResponseRedirect('/blog/')
 
     return render(request, 'blog/edit.html', locals())
+
+
+def delete_article(request, id):
+    get_object_or_404(Article, pk=id).delete()
+    return HttpResponseRedirect('/blog/')

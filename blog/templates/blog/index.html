@@ -3,28 +3,20 @@
 {% block title %}Ma page d'accueil{% endblock %}
 {% block content %}
     <h2>Bienvenue !</h2>
-    <p>
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus 
-       massa non tortor. Vestibulum diam diam, posuere in viverra in, 
-       ullamcorper et libero. Donec eget libero quis risus congue imperdiet ac 
-       id lectus. Nam euismod cursus arcu, et consequat libero ullamcorper sit 
-       amet.
-    </p>
-
-        <a href="{% url "view_article" 42 %}">  Lien vers mon super article N° 42 </a>
 
         <img src="{% static 'django.jpg' %}" alt="Mon image" width="60" height="60"/>
 
 
         <h1>Bienvenue sur le blog!</h1>
-        <p><a href="{% url 'add_article' %}">Ajouter un article</a>
+        <p><a href="{% url 'add_article' %}" target="_blank">Ajouter un article</a>
 
 {% for article in articles %}
     <div class="article">
     	<h3>{{ article.title }}</h3>
     	<p>{{ article.content|truncatewords_html:80 }}</p>
-        <p><a href="{% url 'view_article' article.id %}">Lire la suite</a>
-        <p><a href="{% url 'edit_article' article.id %}">Modifier l'article</a>
+        <p><a href="{% url 'view_article' article.id %}" target="_blank">Lire la suite</a>
+        <p><a href="{% url 'edit_article' article.id %}" target="_blank">Modifier l'article</a>
+        <p><a href="{% url 'delete_article' article.id %}" target="_blank">Supprimer l'article</a>
     </div>
 {% empty %}
     <p>Aucun article.</p>
