@@ -1,0 +1,8 @@
+<h1>Êtes-vous sûr de vouloir supprimer cet article ?</h1>
+
+<p>{{ article.slug }} -&gt; {{ article.title }} (créée le {{ article.date|date:"DATE_FORMAT" }})</p>
+
+<form method="post" action="">
+   {% csrf_token %}
+   <input type="submit" value="Supprimer" /> - <a href="{% url "blog_list" %}">Liste des articles</a>
+</form>

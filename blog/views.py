@@ -5,7 +5,10 @@ from datetime import datetime
 from blog.models import Article, Contact, Document, Category
 from .forms import ContactForm, ArticleForm, NewContactForm, NewDocumentForm
 from django.core.mail import send_mail, BadHeaderError
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
+from django.utils.text import slugify
 
 
 def index(request):
@@ -176,7 +179,42 @@ class DetailArticle(DetailView):
         # Nous récupérons l'objet, via la super-classe
         article = super(DetailArticle, self).get_object()
 
-        #article.nb_views += 1  # Imaginons un attribut « Nombre de vues »
-       # article.save()
+        article.nb_views += 1
+        article.save()
 
-        return article  # Et nous retournons l'objet à afficher
+        return article
+
+
+class ArticleCreate(CreateView):
+    model = Article
+    #template_name = 'bog/article_form.html'
+    form_class = ArticleForm
+    success_url = reverse_lazy('blog_list')
+
+
+class ArticleUpdate(UpdateView):
+    model = Article
+     #template_name = 'bog/article_form.html'
+    form_class = ArticleForm
+    success_url = reverse_lazy('blog_list')
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug', None)
+        return get_object_or_404(Article, slug=slug)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        # Envoi d'un message à l'utilisateur
+        messages.success(self.request, "Votre article a été mis à jour avec succès.")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class ArticleDelete(DeleteView):
+    model = Article
+    context_object_name = "article"
+    #template_name = 'blog/article_confirm_delete.html'
+    success_url = reverse_lazy('blog_list')
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug', None)
+        return get_object_or_404(Article, slug=slug)

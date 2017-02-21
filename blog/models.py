@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.utils.text import slugify
 import os
  
 # Create your models here.
@@ -12,15 +13,21 @@ class Article(models.Model):
     author = models.CharField(max_length=42)
     content = models.TextField(null=True)
     date = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Date de publication")
+    nb_views = models.IntegerField(default=0, verbose_name="Nombre de vues")
     category = models.ForeignKey('Category')
 
+
+
     def __unicode__(self):
-        """
-        Cette méthode que nous définirons dans tous les modèles
-        nous permettra de reconnaître facilement les différents objets que nous
-        traiterons plus tard et dans l'administration
-        """
+
         return u"%s" % self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        self.slug = self.slug.replace("-", "_")
+        super(Article, self).save(*args, **kwargs)
+
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30)

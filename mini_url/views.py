@@ -69,7 +69,7 @@ class URLUpdate(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         # Envoi d'un message à l'utilisateur
-        messages.success(self.request, "Votre profil a été mis à jour avec succès.")
+        messages.success(self.request, "Votre url a été mis à jour avec succès.")
         return HttpResponseRedirect(self.get_success_url())
 
 

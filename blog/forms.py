@@ -6,7 +6,7 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = '__all__'
-        exclude = ('author','slug')
+        exclude = ('author','slug', 'nb_views')
 
 
 class ContactForm(forms.Form):
