@@ -2,9 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from datetime import datetime
-from blog.models import Article, Contact, Document
+from blog.models import Article, Contact, Document, Category
 from .forms import ContactForm, ArticleForm, NewContactForm, NewDocumentForm
 from django.core.mail import send_mail, BadHeaderError
+from django.views.generic import TemplateView, ListView, DetailView
 
 
 def index(request):
@@ -16,6 +17,7 @@ def index(request):
 def view_article(request, id):
     article = get_object_or_404(Article, id=id)
     return render(request, 'blog/view_article.html', {'article': article})
+
 
 def add_article(request):
     form = ArticleForm(request.POST or None)
@@ -121,3 +123,60 @@ def faq(request):
     return render(request, 'blog/faq.html', {})
 
 
+### Views generic ###
+
+
+class FAQView(TemplateView):
+    template_name = "blog/faq.html"
+
+
+class ListArticles(ListView):
+    model = Article
+    context_object_name = "articles"
+    template_name = "blog/article_list.html"
+    paginate_by = 5
+    #queryset = Article.objects.order_by('-date')
+
+    def get_queryset(self):
+
+        return Article.objects.order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        # Nous récupérons le contexte depuis la super-classe
+        context = super(ListArticles, self).get_context_data(**kwargs)
+
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class ListArticlesByCategory(ListView):
+    model = Article
+    context_object_name = "articles"
+    template_name = "blog/article_list.html"
+    paginate_by = 5
+    #queryset = Article.objects.filter(category__id=1)
+
+    def get_queryset(self):
+        return Article.objects.filter(category__id=self.kwargs['id'])
+
+    def get_context_data(self, **kwargs):
+        # Nous récupérons le contexte depuis la super-classe
+        context = super(ListArticlesByCategory, self).get_context_data(**kwargs)
+
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class DetailArticle(DetailView):
+    context_object_name = "article"
+    model = Article
+    template_name = "blog/view_article.html"
+
+    def get_object(self):
+        # Nous récupérons l'objet, via la super-classe
+        article = super(DetailArticle, self).get_object()
+
+        #article.nb_views += 1  # Imaginons un attribut « Nombre de vues »
+       # article.save()
+
+        return article  # Et nous retournons l'objet à afficher
